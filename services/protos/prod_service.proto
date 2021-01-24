@@ -1,0 +1,22 @@
+syntax="proto3";
+
+package services;
+
+option go_package = ".;services";
+
+message ProdModel{
+  int32 prod_id=1;
+  string prod_name=2;
+}
+
+message ProdListRequest{
+  int32 size=1;
+}
+
+message ProdListResponse{
+  repeated ProdModel data=1;
+}
+
+service ProdService {
+  rpc GetProdsList(ProdListRequest) returns (ProdListResponse);
+}

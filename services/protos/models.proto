@@ -1,0 +1,11 @@
+syntax="proto3";
+
+package services;
+
+option go_package = ".;services";
+
+message ProdModel{
+  int32 prod_id=1;
+  string prod_name=2;
+}
+

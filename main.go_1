@@ -1,0 +1,32 @@
+package main
+
+import (
+	"github.com/gin-gonic/gin"
+	"github.com/micro/go-micro/registry"
+	"github.com/micro/go-micro/web"
+	"github.com/micro/go-plugins/registry/consul"
+	"net/http"
+)
+
+func main() {
+
+
+	consulReg := consul.NewRegistry(registry.Addrs("192.168.2.112:8500"))
+
+	ginRouter := gin.Default()
+	ginRouter.Handle(http.MethodGet, "/user", func(c *gin.Context) {
+		c.Data(http.StatusOK, "", []byte("user"))
+	})
+
+	ginRouter.Handle(http.MethodGet, "/news", func(c *gin.Context) {
+		c.Data(http.StatusOK, "", []byte("news"))
+	})
+
+	server := web.NewService(
+		web.Name("prodservice"),
+		web.Address(":8001"),
+		web.Handler(ginRouter),
+		web.Registry(consulReg),
+	)
+	server.Run()
+}
